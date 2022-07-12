@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:orderit/constants.dart';
 import 'package:orderit/logic/otp/provider.dart';
 
 class PhoneWidget extends ConsumerStatefulWidget {
@@ -23,7 +24,11 @@ class _PhoneWidgetState extends ConsumerState<PhoneWidget> {
           },
         ),
         TextButton(
-          onPressed: () async => await ref.read(otpNotifierProvier.notifier).submitPhone(phone),
+          onPressed: () async {
+            await ref.read(otpNotifierProvier.notifier).submitPhone(
+                  TEST_PHONE_NUMBER,
+                );
+          },
           child: const Text("Send OTP"),
         )
       ],

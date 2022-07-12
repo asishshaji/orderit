@@ -34,7 +34,7 @@ class OtpNotifer extends StateNotifier<OtpState> {
         ),
       );
 
-      if (submitPhone.otp == otp) {
+      if (submitPhone.phone == phone) {
         state = const OtpState.success();
       } else {
         state = const OtpState.error("Invalid otp");

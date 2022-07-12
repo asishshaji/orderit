@@ -4,3 +4,4 @@ const String SUBMIT_PHONE_OTP = "$BASE_AUTH_URL/submit_phone/";
 const String SUBMIT_OTP = "$BASE_AUTH_URL/submit_otp/";
 
 const String PURPOSE_LOGIN = "LOGIN";
+const String TEST_PHONE_NUMBER = "+919400376256";

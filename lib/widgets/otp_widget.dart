@@ -28,8 +28,11 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
           },
         ),
         TextButton(
-          onPressed: () async => await ref.read(otpNotifierProvier.notifier).verifyOtp(widget.phone.toString(), otp),
-          child: const Text("Send OTP"),
+          onPressed: () async => await ref.read(otpNotifierProvier.notifier).verifyOtp(
+                "+919400376256",
+                "12323",
+              ),
+          child: const Text("Submit OTP"),
         )
       ],
     );

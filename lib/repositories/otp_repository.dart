@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:orderit/constants.dart';
 import 'package:orderit/models/submit_phone.dart';
+import 'package:orderit/utils.dart';
 
 abstract class IOtpRepository {
   Future<SubmitPhone> submitPhone(SubmitPhone sbData);
@@ -13,11 +13,12 @@ class OtpRepository implements IOtpRepository {
   @override
   Future<SubmitPhone> submitPhone(SubmitPhone sbData) async {
     try {
-      final response = await _dio.post(
-        SUBMIT_PHONE_OTP,
-        data: sbData.toJson(),
-      );
-      return SubmitPhone.fromJson(response.data);
+      // final response = await _dio.post(
+      //   SUBMIT_PHONE_OTP,
+      //   data: sbData.toJson(),
+      // );
+      final response = await readMockJson("submitPhone.json");
+      return SubmitPhone.fromJson(response);
     } catch (e) {
       throw Exception("Error connecting");
     }
@@ -26,11 +27,12 @@ class OtpRepository implements IOtpRepository {
   @override
   Future<SubmitPhone> verifyOtp(SubmitPhone sbData) async {
     try {
-      final response = await _dio.post(
-        SUBMIT_OTP,
-        data: sbData.toJson(),
-      );
-      return SubmitPhone.fromJson(response.data);
+      // final response = await _dio.post(
+      //   SUBMIT_OTP,
+      //   data: sbData.toJson(),
+      // );
+      final response = await readMockJson("verifyOtp.json");
+      return SubmitPhone.fromJson(response);
     } catch (e) {
       throw Exception("Error connecting");
     }

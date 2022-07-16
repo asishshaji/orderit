@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:orderit/logic/otp/provider.dart';
 import 'package:orderit/logic/otp/state.dart';
+import 'package:orderit/pages/home_screen.dart';
 import 'package:orderit/widgets/otp_widget.dart';
 import 'package:orderit/widgets/phone_widget.dart';
 
@@ -34,12 +37,35 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
             initial: () => const PhoneWidget(),
             waiting: (phone) => OtpWidget(phone: phone),
             success: () {
-              return Container();
+              return const SuccessWidget();
             },
             error: (e) => Text(e.toString()),
           ),
         ],
       ),
     );
+  }
+}
+
+class SuccessWidget extends StatefulWidget {
+  const SuccessWidget({Key? key}) : super(key: key);
+
+  @override
+  State<SuccessWidget> createState() => _SuccessWidgetState();
+}
+
+class _SuccessWidgetState extends State<SuccessWidget> {
+  @override
+  Widget build(BuildContext context) {
+    Timer(
+      const Duration(seconds: 3),
+      () => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) => const Home(),
+        ),
+      ),
+    );
+
+    return Container();
   }
 }

@@ -8,6 +8,10 @@ class OtpNotifer extends StateNotifier<OtpState> {
   })  : _otpRepository = otpRepository,
         super(const OtpState.initial());
 
+  Future<void> checkAuthenticated() async {
+    state = const OtpState.initial();
+  }
+
   Future<void> submitPhone(String phone) async {
     try {
       SubmitPhone sb = await _otpRepository.submitPhone(

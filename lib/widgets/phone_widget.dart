@@ -17,6 +17,7 @@ class _PhoneWidgetState extends ConsumerState<PhoneWidget> {
     return Column(
       children: [
         TextField(
+          keyboardType: TextInputType.number,
           onChanged: (data) {
             setState(() {
               phone = data;

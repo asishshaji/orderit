@@ -3,6 +3,8 @@ part of 'provider.dart';
 class OtpNotifer extends StateNotifier<OtpState> {
   final IOtpRepository _otpRepository;
 
+  final _storage = const SecureStorage();
+
   OtpNotifer({
     required IOtpRepository otpRepository,
   })  : _otpRepository = otpRepository,
@@ -13,15 +15,18 @@ class OtpNotifer extends StateNotifier<OtpState> {
   }
 
   Future<void> submitPhone(String phone) async {
+    state = const OtpState.waiting();
     try {
-      SubmitPhone sb = await _otpRepository.submitPhone(
+      Status sb = await _otpRepository.submitPhone(
         SubmitPhone(
           phone: phone,
           purpose: PURPOSE_LOGIN,
         ),
       );
       log(sb.toString());
-      state = const OtpState.waiting();
+      if (sb.status == FALSE) {
+        state = OtpState.error(sb.message);
+      }
     } catch (e) {
       state = OtpState.error(e.toString());
       throw Exception(e);
@@ -30,7 +35,7 @@ class OtpNotifer extends StateNotifier<OtpState> {
 
   Future<void> verifyOtp(String phone, String otp) async {
     try {
-      SubmitPhone submitPhone = await _otpRepository.verifyOtp(
+      OtpVerificationResponse response = await _otpRepository.verifyOtp(
         SubmitPhone(
           phone: phone,
           purpose: PURPOSE_LOGIN,
@@ -38,10 +43,13 @@ class OtpNotifer extends StateNotifier<OtpState> {
         ),
       );
 
-      if (submitPhone.phone == phone) {
+      if (response.status == SUCCESS) {
+        _storage.saveAccessToken(response.access.toString());
+        _storage.saveRefreshToken(response.refresh.toString());
+        _storage.saveUID(response.userId.toString());
         state = const OtpState.success();
       } else {
-        state = const OtpState.error("Invalid otp");
+        state = const OtpState.error(INVALID_OTP);
       }
     } catch (e) {
       state = OtpState.error(e.toString());

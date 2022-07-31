@@ -11,5 +11,6 @@ class SubmitPhone with _$SubmitPhone {
     String? otp,
   }) = _SubmitPhone;
 
-  factory SubmitPhone.fromJson(Map<String, Object?> json) => _$SubmitPhoneFromJson(json);
+  factory SubmitPhone.fromJson(Map<String, Object?> json) =>
+      _$SubmitPhoneFromJson(json);
 }

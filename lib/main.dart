@@ -39,7 +39,7 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(otpNotifierProvier.notifier).checkAuthenticated();
+    // ref.read(otpNotifierProvier.notifier).checkAuthenticated();
 
     final state = ref.watch(otpNotifierProvier);
 

@@ -1,38 +1,39 @@
 import 'package:dio/dio.dart';
+import 'package:orderit/constants.dart';
+import 'package:orderit/models/otp_verification_response/otp_verification_response.dart';
+import 'package:orderit/models/status.dart';
 import 'package:orderit/models/submit_phone.dart';
-import 'package:orderit/utils.dart';
 
 abstract class IOtpRepository {
-  Future<SubmitPhone> submitPhone(SubmitPhone sbData);
-  Future<SubmitPhone> verifyOtp(SubmitPhone sbData);
+  Future<Status> submitPhone(SubmitPhone sbData);
+  Future<OtpVerificationResponse> verifyOtp(SubmitPhone sbData);
 }
 
 class OtpRepository implements IOtpRepository {
   final _dio = Dio();
 
   @override
-  Future<SubmitPhone> submitPhone(SubmitPhone sbData) async {
+  Future<Status> submitPhone(SubmitPhone sbData) async {
     try {
-      // final response = await _dio.post(
-      //   SUBMIT_PHONE_OTP,
-      //   data: sbData.toJson(),
-      // );
-      final response = await readMockJson("submitPhone.json");
-      return SubmitPhone.fromJson(response);
-    } catch (e) {
-      throw Exception("Error connecting");
+      final response = await _dio.post(
+        SUBMIT_PHONE_OTP,
+        data: sbData.toJson(),
+      );
+
+      return Status.fromJson(response.data);
+    } on DioError catch (e) {
+      return Status.fromJson(e.response?.data);
     }
   }
 
   @override
-  Future<SubmitPhone> verifyOtp(SubmitPhone sbData) async {
+  Future<OtpVerificationResponse> verifyOtp(SubmitPhone sbData) async {
     try {
-      // final response = await _dio.post(
-      //   SUBMIT_OTP,
-      //   data: sbData.toJson(),
-      // );
-      final response = await readMockJson("verifyOtp.json");
-      return SubmitPhone.fromJson(response);
+      final response = await _dio.post(
+        SUBMIT_OTP,
+        data: sbData.toJson(),
+      );
+      return OtpVerificationResponse.fromJson(response.data);
     } catch (e) {
       throw Exception("Error connecting");
     }

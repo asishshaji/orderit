@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:orderit/constants.dart';
 import 'package:orderit/logic/otp/provider.dart';
 
 class OtpWidget extends ConsumerStatefulWidget {
@@ -21,6 +22,7 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
     return Column(
       children: [
         TextField(
+          keyboardType: TextInputType.number,
           onChanged: (data) {
             setState(() {
               otp = data;
@@ -29,8 +31,8 @@ class _OtpWidgetState extends ConsumerState<OtpWidget> {
         ),
         TextButton(
           onPressed: () async => await ref.read(otpNotifierProvier.notifier).verifyOtp(
-                "+919400376256",
-                "12323",
+                TEST_PHONE_NUMBER,
+                otp,
               ),
           child: const Text("Submit OTP"),
         )

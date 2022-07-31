@@ -11,7 +11,13 @@ class OtpNotifer extends StateNotifier<OtpState> {
         super(const OtpState.initial());
 
   Future<void> checkAuthenticated() async {
-    state = const OtpState.initial();
+    String? aToken = await _storage.readAccessToken();
+    String? rToken = await _storage.readRefreshToken();
+    if (rToken != null && aToken != null) {
+      state = const OtpState.success();
+    } else {
+      state = const OtpState.initial();
+    }
   }
 
   Future<void> submitPhone(String phone) async {

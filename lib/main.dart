@@ -34,20 +34,31 @@ void main() {
   );
 }
 
-class App extends ConsumerWidget {
+class App extends ConsumerStatefulWidget {
   const App({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // ref.read(otpNotifierProvier.notifier).checkAuthenticated();
+  ConsumerState<ConsumerStatefulWidget> createState() => _AppState();
+}
 
+class _AppState extends ConsumerState<App> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(otpNotifierProvier.notifier).checkAuthenticated();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(otpNotifierProvier);
 
     if (state == const OtpState.success()) {
       return const MaterialApp(home: Home());
     }
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Orderit',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
